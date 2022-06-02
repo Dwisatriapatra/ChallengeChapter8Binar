@@ -29,7 +29,7 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting2()
+                    DisplayLoginUserInterface()
                 }
             }
         }
@@ -37,7 +37,7 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting2() {
+fun DisplayLoginUserInterface() {
     val mContext = LocalContext.current
     Column(
         modifier = Modifier
@@ -101,6 +101,6 @@ fun Greeting2() {
 @Composable
 fun DefaultPreview2() {
     ChallengeChapter8BinarTheme {
-        Greeting2()
+        DisplayLoginUserInterface()
     }
 }

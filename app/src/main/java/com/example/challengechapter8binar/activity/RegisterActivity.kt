@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -29,7 +28,7 @@ class RegisterActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting3("Android")
+                    DisplayRegisterUserInterface()
                 }
             }
         }
@@ -37,7 +36,7 @@ class RegisterActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting3(name: String) {
+fun DisplayRegisterUserInterface() {
     val mContext = LocalContext.current
     Column(
         modifier = Modifier
@@ -46,7 +45,6 @@ fun Greeting3(name: String) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        val mContext = LocalContext.current
         var username by remember {
             mutableStateOf("")
         }
@@ -94,6 +92,7 @@ fun Greeting3(name: String) {
         )
 
         Button(onClick = {
+            Toast.makeText(mContext, "Register berhasil", Toast.LENGTH_SHORT).show()
             mContext.startActivity(Intent(mContext, LoginActivity::class.java))
         }, modifier = Modifier.padding(top = 20.dp)) {
             Text(text = "REGISTER")
@@ -105,6 +104,6 @@ fun Greeting3(name: String) {
 @Composable
 fun DefaultPreview3() {
     ChallengeChapter8BinarTheme {
-        Greeting3("Android")
+       DisplayRegisterUserInterface()
     }
 }
