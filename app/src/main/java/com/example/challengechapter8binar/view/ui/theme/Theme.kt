@@ -1,4 +1,4 @@
-package com.example.challengechapter8binar.activity.ui.theme
+package com.example.challengechapter8binar.view.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

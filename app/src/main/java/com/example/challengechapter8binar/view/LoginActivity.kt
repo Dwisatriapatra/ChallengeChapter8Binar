@@ -1,4 +1,4 @@
-package com.example.challengechapter8binar.activity
+package com.example.challengechapter8binar.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -74,7 +74,7 @@ fun DisplayLoginUserInterface() {
         Button(
             onClick = {
                 if (email == "patra@email.com" && password == "123") {
-                    Toast.makeText(mContext, "Login berhasil", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(mContext, "Login berhasil", Toast.LENGTH_SHORT).show()
                     mContext.startActivity(Intent(mContext, MainActivity::class.java))
                 } else {
                     Toast.makeText(mContext, "Usernane/password salah", Toast.LENGTH_SHORT).show()

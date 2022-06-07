@@ -1,4 +1,4 @@
-package com.example.challengechapter8binar.activity
+package com.example.challengechapter8binar.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.challengechapter8binar.R
-import com.example.challengechapter8binar.activity.ui.theme.ChallengeChapter8BinarTheme
+import com.example.challengechapter8binar.view.ui.theme.ChallengeChapter8BinarTheme
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
