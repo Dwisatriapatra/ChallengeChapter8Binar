@@ -11,25 +11,28 @@ class UserLoginManager(context: Context) {
 
     companion object {
         val ADDRESS = preferencesKey<String>("ADDRESS")
+        val EMAIL = preferencesKey<String>("EMAIL")
         val NAME = preferencesKey<String>("NAME")
         val PASSWORD = preferencesKey<String>("PASSWORD")
-        val UMUR = preferencesKey<Int>("UMUR")
+        val TANGGAL_LAHIR = preferencesKey<String>("TANGGAL_LAHIR")
         val USERNAME = preferencesKey<String>("USERNAME")
         val BOOLEAN = preferencesKey<Boolean>("BOOLEAN")
     }
 
     suspend fun saveDataLogin(
         address: String,
+        email: String,
         name: String,
         password: String,
-        umur: Int,
+        tanggalLahir: String,
         username: String
     ) {
         dataStore.edit {
             it[ADDRESS] = address
             it[NAME] = name
             it[PASSWORD] = password
-            it[UMUR] = umur
+            it[EMAIL] = email
+            it[TANGGAL_LAHIR] = tanggalLahir
             it[USERNAME] = username
         }
     }
@@ -48,6 +51,10 @@ class UserLoginManager(context: Context) {
 
     val name: Flow<String> = dataStore.data.map {
         it[NAME] ?: ""
+    }
+
+    val username: Flow<String> = dataStore.data.map {
+        it[USERNAME] ?: ""
     }
 
     val boolean: Flow<Boolean> = dataStore.data.map {

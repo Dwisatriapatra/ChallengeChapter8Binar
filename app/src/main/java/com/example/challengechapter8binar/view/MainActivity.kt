@@ -15,9 +15,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,13 +25,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.challengechapter8binar.R
+import com.example.challengechapter8binar.datastore.UserLoginManager
 import com.example.challengechapter8binar.model.Movie
 import com.example.challengechapter8binar.ui.theme.ChallengeChapter8BinarTheme
 import com.example.challengechapter8binar.viewmodel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -49,7 +51,15 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val viewModelMovie = viewModel(modelClass = MovieViewModel::class.java)
                     val dataMovie by viewModelMovie.dataMovieState.collectAsState()
-                    //val mContext = LocalContext.current
+                    val mContext = LocalContext.current
+                    val userLoginManager = UserLoginManager(mContext)
+                    var username by remember{
+                        mutableStateOf("")
+                    }
+                    userLoginManager.username.asLiveData().observe(this){
+                        username = it
+                    }
+
                     Column(modifier = Modifier
                         .padding(10.dp)
                         .fillMaxSize()) {
@@ -57,18 +67,9 @@ class MainActivity : ComponentActivity() {
                             Image(
                                 painterResource(id = R.drawable.ic_baseline_person_24),
                                 contentDescription = "",
-                                modifier = Modifier
-                                    .clickable {
-//                                    mContext.startActivity(
-//                                        Intent(
-//                                            mContext,
-//                                            StafListActivity::class.java
-//                                        )
-//                                    )
-                                    }
                             )
                             Text(
-                                text = "Hello, username",
+                                text = "Hello, $username",
                                 color = Color.Black,
                                 modifier = Modifier.align(Alignment.CenterVertically)
                             )
@@ -79,6 +80,13 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .align(Alignment.CenterVertically)
+                                    .clickable {
+                                        GlobalScope.launch {
+                                            userLoginManager.clearDataLogin()
+                                        }
+
+                                        startActivity(Intent(mContext, LoginActivity::class.java))
+                                    }
                             )
                         }
 
