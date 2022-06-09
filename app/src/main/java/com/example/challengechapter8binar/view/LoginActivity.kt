@@ -6,8 +6,10 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,6 +19,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -83,10 +88,15 @@ fun DisplayLoginUserInterface() {
             mutableStateOf(false)
         }
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.person_icon),
             contentDescription = "img",
-            modifier = Modifier.padding(bottom = 20.dp)
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(128.dp)
+                .clip(CircleShape)
+                .border(5.dp, Color.Gray, CircleShape)
         )
+        Spacer(modifier = Modifier.padding(15.dp))
         TextField(
             value = email,
             onValueChange = { email = it },

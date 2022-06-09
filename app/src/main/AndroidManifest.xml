@@ -41,7 +41,6 @@
         <activity
             android:name=".view.MainActivity"
             android:exported="false"
-            android:label="@string/app_name"
             android:theme="@style/Theme.ChallengeChapter8Binar" />
     </application>
 

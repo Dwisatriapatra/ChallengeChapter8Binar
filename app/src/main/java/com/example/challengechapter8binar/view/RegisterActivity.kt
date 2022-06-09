@@ -7,15 +7,10 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -24,15 +19,18 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.challengechapter8binar.R
 import com.example.challengechapter8binar.model.RequestUser
@@ -89,20 +87,20 @@ fun DisplayRegisterUserInterface() {
         var email by remember {
             mutableStateOf("")
         }
-        var konfirmasiPassword by rememberSaveable{
+        var konfirmasiPassword by rememberSaveable {
             mutableStateOf("")
         }
-        var passwordVisible by rememberSaveable{
+        var passwordVisible by rememberSaveable {
             mutableStateOf(false)
         }
-        var konfirmasiPasswordVisible by rememberSaveable{
+        var konfirmasiPasswordVisible by rememberSaveable {
             mutableStateOf(false)
         }
         var name by remember {
             mutableStateOf("")
         }
-        var tanggalLahir by remember {
-            mutableStateOf("")
+        val tanggalLahir = remember {
+            mutableStateOf(TextFieldValue())
         }
         var alamat by remember {
             mutableStateOf("")
@@ -110,17 +108,21 @@ fun DisplayRegisterUserInterface() {
         val mDatePickerDialog = DatePickerDialog(
             mContext,
             { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-                tanggalLahir = "$mDayOfMonth/${mMonth + 1}/$mYear"
+                tanggalLahir.value = TextFieldValue("$mDayOfMonth/${mMonth + 1}/$mYear")
             }, mYear, mMonth, mDay
         )
 
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.person_icon),
             contentDescription = "img",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .padding(bottom = 20.dp)
+                .size(128.dp)
+                .clip(CircleShape)
+                .border(5.dp, Color.Gray, CircleShape)
                 .align(Alignment.CenterHorizontally)
         )
+        Spacer(modifier = Modifier.padding(15.dp))
         TextField(
             value = name,
             onValueChange = { name = it },
@@ -137,14 +139,15 @@ fun DisplayRegisterUserInterface() {
                 .fillMaxWidth()
                 .padding(bottom = 15.dp)
         )
-        Text(
-            text = "Tanggal lahir(dd/mm/yy):  $tanggalLahir",
-            fontSize = 20.sp,
-            modifier = Modifier.background(color = Color.Gray)
+        ReadonlyTextField(
+            value = tanggalLahir.value,
+            onValueChange = { tanggalLahir.value = it },
+            onClick = { mDatePickerDialog.show() },
+            label = { Text(text = "Pilih tanggal lahir") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 15.dp)
         )
-        Button(onClick = { mDatePickerDialog.show() }) {
-            Text(text = "Pilih tanggal lahir")
-        }
         TextField(
             value = username,
             onValueChange = { username = it },
@@ -166,7 +169,7 @@ fun DisplayRegisterUserInterface() {
             onValueChange = { password = it },
             label = { Text(text = "Input password") },
             singleLine = true,
-            visualTransformation = if(passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 15.dp),
@@ -179,8 +182,8 @@ fun DisplayRegisterUserInterface() {
                 // Please provide localized description for accessibility services
                 val description = if (passwordVisible) "Hide password" else "Show password"
 
-                IconButton(onClick = {passwordVisible = !passwordVisible}){
-                    Icon(imageVector  = image, description)
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(imageVector = image, description)
                 }
             }
         )
@@ -189,7 +192,7 @@ fun DisplayRegisterUserInterface() {
             onValueChange = { konfirmasiPassword = it },
             label = { Text(text = "Input konfirmasi password") },
             singleLine = true,
-            visualTransformation = if(konfirmasiPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            visualTransformation = if (konfirmasiPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 15.dp),
@@ -200,29 +203,42 @@ fun DisplayRegisterUserInterface() {
                 else Icons.Filled.VisibilityOff
 
                 // Please provide localized description for accessibility services
-                val description = if (konfirmasiPasswordVisible) "Hide password" else "Show password"
+                val description =
+                    if (konfirmasiPasswordVisible) "Hide password" else "Show password"
 
-                IconButton(onClick = {konfirmasiPasswordVisible = !konfirmasiPasswordVisible}){
-                    Icon(imageVector  = image, description)
+                IconButton(onClick = { konfirmasiPasswordVisible = !konfirmasiPasswordVisible }) {
+                    Icon(imageVector = image, description)
                 }
             }
         )
 
         Button(
             onClick = {
-                userViewModel.insertNewUser(
-                    RequestUser(
-                        alamat,
-                        email,
-                        "http://placeimg.com/640/480",
-                        name,
-                        password,
-                        tanggalLahir,
-                        username
+                if (alamat.isNotEmpty() &&
+                    email.isNotEmpty() &&
+                    name.isNotEmpty() &&
+                    password.isNotEmpty() &&
+                    tanggalLahir.value.text.isNotEmpty() &&
+                    username.isNotEmpty() &&
+                    konfirmasiPassword.isNotEmpty()
+                ) {
+                    userViewModel.insertNewUser(
+                        RequestUser(
+                            alamat,
+                            email,
+                            "http://placeimg.com/640/480",
+                            name,
+                            password,
+                            tanggalLahir.value.text,
+                            username
+                        )
                     )
-                )
-                Toast.makeText(mContext, "Register berhasil", Toast.LENGTH_SHORT).show()
-                mContext.startActivity(Intent(mContext, LoginActivity::class.java))
+                    Toast.makeText(mContext, "Register berhasil", Toast.LENGTH_SHORT).show()
+                    mContext.startActivity(Intent(mContext, LoginActivity::class.java))
+                } else {
+                    Toast.makeText(mContext, "Mohon isi semua field", Toast.LENGTH_SHORT).show()
+                }
+
             }, modifier = Modifier
                 .padding(top = 20.dp)
                 .align(Alignment.CenterHorizontally)
@@ -237,5 +253,29 @@ fun DisplayRegisterUserInterface() {
 fun DefaultPreview3() {
     ChallengeChapter8BinarTheme {
         DisplayRegisterUserInterface()
+    }
+}
+
+@Composable
+fun ReadonlyTextField(
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    label: @Composable () -> Unit
+) {
+    Box {
+        TextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = modifier,
+            label = label
+        )
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .alpha(0f)
+                .clickable(onClick = onClick),
+        )
     }
 }
