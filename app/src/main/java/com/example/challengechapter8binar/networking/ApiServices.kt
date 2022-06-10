@@ -18,8 +18,8 @@ interface ApiServices {
 
     //user
     @GET("datauserlogin")
-    suspend fun getAllUser() : List<GetAllUserResponseItem>
+    suspend fun getAllUser(): List<GetAllUserResponseItem>
 
     @POST("datauserlogin")
-    fun addNewUser(@Body requestUser: RequestUser) : Call<PostUser>
+    fun addNewUser(@Body requestUser: RequestUser): Call<PostUser>
 }

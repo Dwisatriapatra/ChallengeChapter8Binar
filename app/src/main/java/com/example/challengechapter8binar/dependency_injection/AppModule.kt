@@ -34,11 +34,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit = Retrofit
-            .Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
+        .Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(client)
+        .build()
 
     @Provides
     @Singleton
@@ -59,6 +59,6 @@ object AppModule {
     @Provides
     @Singleton
     @Named("ApiServicesUser")
-    fun provideApiServicesForUser(@Named("RetrofitUser") retrofit: Retrofit) : ApiServices =
+    fun provideApiServicesForUser(@Named("RetrofitUser") retrofit: Retrofit): ApiServices =
         retrofit.create(ApiServices::class.java)
 }

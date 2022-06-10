@@ -22,11 +22,11 @@ class MovieViewModel @Inject constructor(apiServices: ApiServices) : ViewModel()
 
     init {
         val command = api.getMovie(apiKey)
-        command.enqueue(object : Callback<MovieResponse>{
+        command.enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     movieState.value = response.body()!!.results
-                }else{
+                } else {
                     Log.e("view_model", response.message())
                 }
             }

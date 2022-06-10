@@ -17,7 +17,8 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @HiltViewModel
-class UserViewModel @Inject constructor(@Named("ApiServicesUser") apiServices: ApiServices) : ViewModel() {
+class UserViewModel @Inject constructor(@Named("ApiServicesUser") apiServices: ApiServices) :
+    ViewModel() {
     private val userState = MutableStateFlow(emptyList<GetAllUserResponseItem>())
     val dataUserState: StateFlow<List<GetAllUserResponseItem>> get() = userState
     private val api = apiServices

@@ -68,42 +68,54 @@ fun DisplayDetail(movie: Movie) {
                 color = Color.Black,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(PaddingValues(
-                    start = 10.dp,
-                    end = 10.dp,
-                    bottom = 5.dp
-                ))
+                modifier = Modifier.padding(
+                    PaddingValues(
+                        start = 10.dp,
+                        end = 10.dp,
+                        bottom = 5.dp
+                    )
+                )
             )
-            Divider(thickness = 2.dp, color = Color.Black, modifier = Modifier.padding(bottom = 10.dp))
+            Divider(
+                thickness = 2.dp,
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
             Text(
                 text = "Release date: ${movie.releaseDate}",
                 color = Color.Black,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier.padding(PaddingValues(
-                    start = 10.dp,
-                    end = 10.dp,
-                    bottom = 10.dp
-                ))
+                modifier = Modifier.padding(
+                    PaddingValues(
+                        start = 10.dp,
+                        end = 10.dp,
+                        bottom = 10.dp
+                    )
+                )
             )
             Text(
                 text = "Score: ${movie.voteAverage}",
                 color = Color.Black,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier.padding(PaddingValues(
-                    start = 10.dp,
-                    end = 10.dp,
-                    bottom = 10.dp
-                ))
+                modifier = Modifier.padding(
+                    PaddingValues(
+                        start = 10.dp,
+                        end = 10.dp,
+                        bottom = 10.dp
+                    )
+                )
             )
             Text(
                 text = "Overview: \n${movie.overview}",
                 color = Color.Black,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier.padding(PaddingValues(
-                    start = 10.dp,
-                    end = 10.dp,
-                    bottom = 10.dp
-                )),
+                modifier = Modifier.padding(
+                    PaddingValues(
+                        start = 10.dp,
+                        end = 10.dp,
+                        bottom = 10.dp
+                    )
+                ),
                 textAlign = TextAlign.Justify
             )
         }
